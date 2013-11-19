@@ -10,10 +10,10 @@
 
 #include <QQuickView>
 
-class GLC_DeclarativeView : public QQuickView
+class GLC_QuickView : public QQuickView
 {
 public:
-    GLC_DeclarativeView(QWindow* pParent= NULL);
+    GLC_QuickView(QWindow* pParent= NULL);
 };
 
 #endif // GLC_DECLARATIVEVIEW_H

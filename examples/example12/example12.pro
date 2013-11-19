@@ -26,12 +26,12 @@ unix {
 
 
 SOURCES += main.cpp \
-    glc_declarativeitem.cpp \
-    glc_declarativeview.cpp
+    glc_quickitem.cpp \
+    glc_quickview.cpp
 
 HEADERS += \
-    glc_declarativeitem.h \
-    glc_declarativeview.h
+    glc_quickitem.h \
+    glc_quickview.h
 
 OTHER_FILES += \
     GLC_Declarative.qml

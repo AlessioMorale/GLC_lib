@@ -8,9 +8,9 @@
 
 #include <GLC_Context>
 
-#include "glc_declarativeview.h"
+#include "glc_quickview.h"
 
-GLC_DeclarativeView::GLC_DeclarativeView(QWindow *pParent)
+GLC_QuickView::GLC_QuickView(QWindow *pParent)
     : QQuickView(pParent)
 {
     setColor(Qt::transparent);

@@ -1,5 +1,5 @@
 /*
- * glc_declarativeitem.cpp
+ * GLC_QuickItem.cpp
  *
  *  Created on: 22/04/2013
  *      Author: laumaya
@@ -11,13 +11,13 @@
 #include <GLC_Exception>
 #include <GLC_Factory>
 #include <QQuickWindow>
-#include "glc_declarativeitem.h"
+#include "glc_quickitem.h"
 
 #ifndef GL_MULTISAMPLE
 #define GL_MULTISAMPLE  0x809D
 #endif
 
-GLC_DeclarativeItem::GLC_DeclarativeItem(QQuickItem *pParent)
+GLC_QuickItem::GLC_QuickItem(QQuickItem *pParent)
     : QQuickItem(pParent)
     , m_Viewport()
     , m_World()
@@ -49,7 +49,7 @@ GLC_DeclarativeItem::GLC_DeclarativeItem(QQuickItem *pParent)
 
 }
 
-void GLC_DeclarativeItem::itemChange(QQuickItem::ItemChange change, const QQuickItem::ItemChangeData &value)
+void GLC_QuickItem::itemChange(QQuickItem::ItemChange change, const QQuickItem::ItemChangeData &value)
 {
     Q_UNUSED(value);
 
@@ -64,14 +64,14 @@ void GLC_DeclarativeItem::itemChange(QQuickItem::ItemChange change, const QQuick
     QQuickItem::itemChange(change, value);
 }
 
-GLC_DeclarativeItem::~GLC_DeclarativeItem()
+GLC_QuickItem::~GLC_QuickItem()
 {
     delete m_pSourceFbo;
     delete m_pTargetFbo;
     delete m_pSelectionFbo;
 }
 
-QVariant GLC_DeclarativeItem::world() const
+QVariant GLC_QuickItem::world() const
 {
     QVariant subject;
     subject.setValue(m_World);
@@ -79,7 +79,7 @@ QVariant GLC_DeclarativeItem::world() const
     return subject;
 }
 
-void GLC_DeclarativeItem::setWorld(QVariant worldVariant)
+void GLC_QuickItem::setWorld(QVariant worldVariant)
 {
     GLC_World world= worldVariant.value<GLC_World>();
     if (!world.isEmpty())
@@ -89,7 +89,7 @@ void GLC_DeclarativeItem::setWorld(QVariant worldVariant)
     }
 }
 
-void GLC_DeclarativeItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
+void GLC_QuickItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
     delete m_pSourceFbo;
     m_pSourceFbo= NULL;
@@ -102,7 +102,7 @@ void GLC_DeclarativeItem::geometryChanged(const QRectF &newGeometry, const QRect
     QQuickItem::geometryChanged(newGeometry, oldGeometry);
 }
 
-void GLC_DeclarativeItem::paint()
+void GLC_QuickItem::paint()
 {
     if(!GLC_Context::current() || !GLC_Context::current()->isValid()){
         GLC_Context *context = new GLC_Context(QGLFormat(QGL::SampleBuffers));
@@ -124,7 +124,7 @@ void GLC_DeclarativeItem::paint()
     GLC_Context::currentContext()->swapBuffers();
 }
 
-void GLC_DeclarativeItem::mousePressEvent(QMouseEvent *e)
+void GLC_QuickItem::mousePressEvent(QMouseEvent *e)
 {
     if (!m_MoverController.hasActiveMover())
     {
@@ -154,7 +154,7 @@ void GLC_DeclarativeItem::mousePressEvent(QMouseEvent *e)
     }
 }
 
-void GLC_DeclarativeItem::mouseMoveEvent(QMouseEvent *e)
+void GLC_QuickItem::mouseMoveEvent(QMouseEvent *e)
 {
     if (m_MoverController.hasActiveMover())
     {
@@ -166,7 +166,7 @@ void GLC_DeclarativeItem::mouseMoveEvent(QMouseEvent *e)
     }
 }
 
-void GLC_DeclarativeItem::mouseReleaseEvent(QMouseEvent *e)
+void GLC_QuickItem::mouseReleaseEvent(QMouseEvent *e)
 {
     Q_UNUSED(e);
 
@@ -177,7 +177,7 @@ void GLC_DeclarativeItem::mouseReleaseEvent(QMouseEvent *e)
     }
 }
 
-void GLC_DeclarativeItem::initGl()
+void GLC_QuickItem::initGl()
 {
     m_Viewport.initGl();
     glEnable(GL_NORMALIZE);
@@ -185,7 +185,7 @@ void GLC_DeclarativeItem::initGl()
     m_FirstRender= false;
 }
 
-void GLC_DeclarativeItem::render()
+void GLC_QuickItem::render()
 {
     setupFbo(this->width(), this->height());
     if (m_pTargetFbo && m_pTargetFbo->isValid() && m_pSourceFbo && m_pSourceFbo->isValid())
@@ -227,7 +227,7 @@ void GLC_DeclarativeItem::render()
     }
 }
 
-void GLC_DeclarativeItem::renderForSelection()
+void GLC_QuickItem::renderForSelection()
 {
     //painter->beginNativePainting();
 
@@ -264,7 +264,7 @@ void GLC_DeclarativeItem::renderForSelection()
     render();
 }
 
-void GLC_DeclarativeItem::renderWorld()
+void GLC_QuickItem::renderWorld()
 {
     try
     {
@@ -292,7 +292,7 @@ void GLC_DeclarativeItem::renderWorld()
     }
 }
 
-void GLC_DeclarativeItem::setupFbo(int width, int height)
+void GLC_QuickItem::setupFbo(int width, int height)
 {
     if (NULL == m_pSourceFbo)
     {
@@ -306,7 +306,7 @@ void GLC_DeclarativeItem::setupFbo(int width, int height)
     }
 }
 
-void GLC_DeclarativeItem::setupSelectionFbo(int width, int height)
+void GLC_QuickItem::setupSelectionFbo(int width, int height)
 {
     if (NULL == m_pSelectionFbo)
     {
@@ -314,7 +314,7 @@ void GLC_DeclarativeItem::setupSelectionFbo(int width, int height)
     }
 }
 
-void GLC_DeclarativeItem::pushMatrix()
+void GLC_QuickItem::pushMatrix()
 {
     GLC_Context* pCurrentContext= GLC_Context::current();
     pCurrentContext->glcMatrixMode(GL_PROJECTION);
@@ -323,7 +323,7 @@ void GLC_DeclarativeItem::pushMatrix()
     pCurrentContext->glcPushMatrix();
 }
 
-void GLC_DeclarativeItem::popMatrix()
+void GLC_QuickItem::popMatrix()
 {
     GLC_Context* pCurrentContext= GLC_Context::current();
     pCurrentContext->glcMatrixMode(GL_PROJECTION);
@@ -332,7 +332,7 @@ void GLC_DeclarativeItem::popMatrix()
     pCurrentContext->glcPopMatrix();
 }
 
-void GLC_DeclarativeItem::select(qreal x, qreal y)
+void GLC_QuickItem::select(qreal x, qreal y)
 {
     m_IsinSelectionMode= true;
     m_CurrentPos.setVect(x, y);

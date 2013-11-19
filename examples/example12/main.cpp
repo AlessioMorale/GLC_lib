@@ -7,19 +7,19 @@
 #include <GLC_World>
 #include <GLC_Factory>
 
-#include "glc_declarativeview.h"
-#include "glc_declarativeitem.h"
+#include "glc_quickview.h"
+#include "glc_quickitem.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    qmlRegisterType<GLC_DeclarativeItem>("glcview", 1, 0, "GLCView");
+    qmlRegisterType<GLC_QuickItem>("glcview", 1, 0, "GLCView");
 
     QGLFormat f = QGLFormat::defaultFormat();
     f.setSampleBuffers(true);
 
-    // QDeclarativeView view;
-    GLC_DeclarativeView view;
+    // QDeclrativeView view;
+    GLC_QuickView view;
 
     QFile file1(":model/Democles.dae");
     GLC_World world1= GLC_Factory::instance()->createWorldFromFile(file1);

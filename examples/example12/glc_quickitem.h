@@ -1,12 +1,12 @@
 /*
- * glc_declarativeitem.h
+ * GLC_QuickItem.h
  *
  *  Created on: 22/04/2013
  *      Author: laumaya
  */
 
-#ifndef GLC_DECLARATIVEITEM_H
-#define GLC_DECLARATIVEITEM_H
+#ifndef GLC_QUICKITEM_H
+#define GLC_QUICKITEM_H
 
 #include <QQuickItem>
 #include <QtOpenGL>
@@ -18,14 +18,14 @@
 #include <GLC_MoverController>
 #include <QGLFramebufferObject>
 
-class GLC_DeclarativeItem : public QQuickItem
+class GLC_QuickItem : public QQuickItem
 {
     Q_OBJECT
     Q_PROPERTY(QVariant world READ world WRITE setWorld)
 
 public:
-    explicit GLC_DeclarativeItem(QQuickItem* pParent= NULL);
-    virtual ~GLC_DeclarativeItem();
+    explicit GLC_QuickItem(QQuickItem* pParent= NULL);
+    virtual ~GLC_QuickItem();
 
     QVariant world() const;
 
@@ -64,4 +64,4 @@ protected:
 
 };
 
-#endif // GLC_DECLARATIVEITEM_H
+#endif // GLC_QUICKITEM_H
