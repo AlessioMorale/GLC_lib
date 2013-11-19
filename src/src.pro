@@ -9,19 +9,19 @@ ios: CONFIG += static
 
 
 TARGET = GLC_lib
-DESTDIR = ./
+DESTDIR = ./Build
 VERSION = 2.5.0
 
 DEFINES += CREATE_GLC_LIB_DLL
 DEFINES += LIB3DS_EXPORTS
 
 DEFINES += _CRT_SECURE_NO_WARNINGS
-
-OBJECTS_DIR = ./Build
-MOC_DIR = ./Build
-UI_DIR = ./Build
-RCC_DIR = ./Build
-
+!unix{
+    OBJECTS_DIR = ./Build
+    MOC_DIR = ./Build
+    UI_DIR = ./Build
+    RCC_DIR = ./Build
+}
 DEPENDPATH += .
 INCLUDEPATH += .
 INCLUDEPATH += ./3rdparty/zlib
