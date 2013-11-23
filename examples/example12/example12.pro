@@ -1,6 +1,6 @@
 TEMPLATE = app
 CONFIG += warn_on
-TARGET = glc_declarative
+TARGET = glcQuick2
 VERSION = 1.0
 
 unix:OBJECTS_DIR = ./Build
@@ -26,12 +26,14 @@ unix {
 
 
 SOURCES += main.cpp \
-    glc_quickitem.cpp \
-    glc_quickview.cpp
+    quickglcitem.cpp \
+    quickglcview.cpp \
+    qmlrendertarget.cpp
 
 HEADERS += \
-    glc_quickitem.h \
-    glc_quickview.h
+    quickglcitem.h \
+    quickglcview.h \
+    qmlrendertarget.h
 
 OTHER_FILES += \
     GLC_Declarative.qml
