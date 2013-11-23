@@ -157,7 +157,7 @@ GLC_Vector3d GLC_Viewport::mapNormalyzePosMouse(double Posx, double Posy) const
 
 void GLC_Viewport::initGl()
 {
-	glClearColor(m_BackgroundColor.redF(), m_BackgroundColor.greenF(), m_BackgroundColor.blueF(), 1.0f);
+    glClearColor(m_BackgroundColor.redF(), m_BackgroundColor.greenF(), m_BackgroundColor.blueF(), m_BackgroundColor.alphaF());
 	glClearDepth(1.0f);                                   // Depth Buffer Setup
 	glShadeModel(GL_SMOOTH);                              // Enable Smooth Shading
 	glEnable(GL_DEPTH_TEST);                              // Enables Depth Testing
@@ -356,7 +356,7 @@ void GLC_Viewport::setWinGLSize(const QSize &size, bool updateOGLViewport)
 GLC_uint GLC_Viewport::renderAndSelect(int x, int y, GLenum buffer)
 {
 	const QColor clearColor(Qt::black);
-	glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), 1.0f);
+    glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
 	GLC_State::setSelectionMode(true);
 	// Draw the scene
 	emit updateOpenGL();
@@ -379,7 +379,7 @@ GLC_uint GLC_Viewport::selectOnPreviousRender(int x, int y, GLenum buffer)
 GLC_uint GLC_Viewport::selectBody(GLC_3DViewInstance* pInstance, int x, int y, GLenum buffer)
 {
 	const QColor clearColor(Qt::black);
-	glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), 1.0f);
+    glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
 	GLC_State::setSelectionMode(true);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	GLC_Context::current()->glcLoadIdentity();
@@ -409,7 +409,7 @@ QPair<int, GLC_uint> GLC_Viewport::selectPrimitive(GLC_3DViewInstance* pInstance
 	QPair<int, GLC_uint> result;
 
 	const QColor clearColor(Qt::black);
-	glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), 1.0f);
+    glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
 	GLC_State::setSelectionMode(true);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	GLC_Context::current()->glcLoadIdentity();
@@ -463,7 +463,7 @@ QSet<GLC_uint> GLC_Viewport::selectInsideSquare(int x1, int y1, int x2, int y2, 
 		y2= yTemp;
 	}
 	const QColor clearColor(Qt::black);
-	glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), 1.0f);
+    glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
 	GLC_State::setSelectionMode(true);
 	// Draw the scene
 	updateOpenGL();
@@ -490,7 +490,7 @@ GLC_uint GLC_Viewport::meaningfulIdInsideSquare(GLint x, GLint y, GLsizei width,
 	glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, colorId.data());
 
 	// Restore Background color
-	glClearColor(m_BackgroundColor.redF(), m_BackgroundColor.greenF(), m_BackgroundColor.blueF(), 1.0f);
+    glClearColor(m_BackgroundColor.redF(), m_BackgroundColor.greenF(), m_BackgroundColor.blueF(), m_BackgroundColor.alphaF());
 
 	QHash<GLC_uint, int> idHash;
 	QList<int> idWeight;
@@ -538,7 +538,7 @@ QSet<GLC_uint> GLC_Viewport::listOfIdInsideSquare(GLint x, GLint y, GLsizei widt
 	glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, colorId.data());
 
 	// Restore Background color
-	glClearColor(m_BackgroundColor.redF(), m_BackgroundColor.greenF(), m_BackgroundColor.blueF(), 1.0f);
+    glClearColor(m_BackgroundColor.redF(), m_BackgroundColor.greenF(), m_BackgroundColor.blueF(), m_BackgroundColor.alphaF());
 
 	QSet<GLC_uint> idSet;
 
@@ -579,7 +579,7 @@ void GLC_Viewport::deleteBackGroundImage()
 
 void GLC_Viewport::clearBackground(const QColor& color) const
 {
-	glClearColor(color.redF(), color.greenF(), color.blueF(), 1.0f);
+    glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
 }
 
 void GLC_Viewport::setToOrtho(bool useOrtho)
@@ -702,7 +702,7 @@ void GLC_Viewport::setDistMinAndMax(const GLC_BoundingBox& bBox)
 void GLC_Viewport::setBackgroundColor(QColor setColor)
 {
 	m_BackgroundColor= setColor;
-	glClearColor(m_BackgroundColor.redF(), m_BackgroundColor.greenF(), m_BackgroundColor.blueF(), 1.0f);
+    glClearColor(m_BackgroundColor.redF(), m_BackgroundColor.greenF(), m_BackgroundColor.blueF(), m_BackgroundColor.alphaF());
 }
 
 void GLC_Viewport::addClipPlane(GLenum planeGlEnum,GLC_Plane* pPlane)
