@@ -43,7 +43,7 @@ QuickGLCItem::QuickGLCItem(QQuickItem *pParent)
     m_Viewport.setMinimumPixelCullingSize(6);
 
     m_Light.setTwoSided(true);
-    m_Light.setPosition(10.0, 10.0, 10.0);
+    m_Light.setPosition(10.0, -10.0, 10.0);
 
     m_Viewport.cameraHandle()->setEyeCam(GLC_Point3d(1.0, 1.0, 1.0));
 
@@ -366,7 +366,8 @@ void QuickGLCItem::renderWorld()
 
         // Load identity matrix
         GLC_Context::current()->glcLoadIdentity();
-
+        GLC_Context::current()->glcMatrixMode(GL_PROJECTION);
+        GLC_Context::current()->glcScaled(1, -1,1);
         m_World.collection()->updateInstanceViewableState();
         m_Light.glExecute();
         m_Viewport.glExecuteCam();
