@@ -69,10 +69,10 @@ GLC_Context* GLC_Context::current()
 //////////////////////////////////////////////////////////////////////
 void GLC_Context::glcMatrixMode(GLenum mode)
 {
-	Q_ASSERT(QGLContext::isValid());
+    Q_ASSERT(QGLContext::currentContext()->isValid());
 	Q_ASSERT((mode == GL_MODELVIEW) || (mode == GL_PROJECTION));
 
-	m_CurrentMatrixMode= mode;
+    m_CurrentMatrixMode= mode;
 #ifdef GLC_OPENGL_ES_2
 
 #else
@@ -83,7 +83,7 @@ void GLC_Context::glcMatrixMode(GLenum mode)
 
 void GLC_Context::glcLoadIdentity()
 {
-	Q_ASSERT(QGLContext::isValid());
+    Q_ASSERT(QGLContext::currentContext()->isValid());
 	m_MatrixStackHash.value(m_CurrentMatrixMode)->top().setToIdentity();
 
 #ifdef GLC_OPENGL_ES_2
@@ -100,7 +100,7 @@ void GLC_Context::glcLoadIdentity()
 
 void GLC_Context::glcPushMatrix()
 {
-	Q_ASSERT(QGLContext::isValid());
+    Q_ASSERT(QGLContext::currentContext()->isValid());
 	m_MatrixStackHash.value(m_CurrentMatrixMode)->push(m_MatrixStackHash.value(m_CurrentMatrixMode)->top());
 
 #ifndef GLC_OPENGL_ES_2
@@ -111,7 +111,7 @@ void GLC_Context::glcPushMatrix()
 
 void GLC_Context::glcPopMatrix()
 {
-	Q_ASSERT(QGLContext::isValid());
+    Q_ASSERT(QGLContext::currentContext()->isValid());
 	m_MatrixStackHash.value(m_CurrentMatrixMode)->pop();
 
 #ifdef GLC_OPENGL_ES_2
