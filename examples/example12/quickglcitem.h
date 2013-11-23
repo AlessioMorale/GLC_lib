@@ -35,6 +35,7 @@ public:
     void DebugGLStack();
 public slots:
     void setWorld(QVariant worldVariant);
+    void updateGLC();
 protected:
     void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry);
     void paint();
@@ -68,6 +69,8 @@ protected:
     QMLRenderTarget *m_rendertarget;
     qint16 stackCounter;
     double m_delta;
+    bool m_dirty;
+    void markDirty();
 };
 
 #endif // GLC_DECLARATIVEITEM_H

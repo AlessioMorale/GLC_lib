@@ -41,7 +41,7 @@ QuickGLCItem::QuickGLCItem(QQuickItem *pParent)
     GLC_State::setPixelCullingUsage(true);
     GLC_State::setSpacePartionningUsage(true);
     m_Viewport.setMinimumPixelCullingSize(6);
-    //setFlag(QQuickItem::ItemIsFocusScope,true);
+
     m_Light.setTwoSided(true);
     m_Light.setPosition(10.0, 10.0, 10.0);
 
@@ -51,6 +51,7 @@ QuickGLCItem::QuickGLCItem(QQuickItem *pParent)
     repColor.setRgbF(1.0, 0.11372, 0.11372, 1.0);
     m_MoverController= GLC_Factory::instance()->createDefaultMoverController(repColor, &m_Viewport);
     m_delta = 0;
+    m_dirty = true;
 }
 
 QuickGLCItem::~QuickGLCItem()
@@ -75,6 +76,17 @@ void QuickGLCItem::setWorld(QVariant worldVariant)
         m_World= world;
         m_Viewport.reframe(world.boundingBox());
     }
+    updateGLC();
+}
+
+void QuickGLCItem::updateGLC()
+{
+    markDirty();
+    update();
+}
+
+void QuickGLCItem::markDirty(){
+    m_dirty = true;
 }
 
 void QuickGLCItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
@@ -84,6 +96,7 @@ void QuickGLCItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldG
     delete m_pSelectionFbo;
     m_pSelectionFbo= NULL;
     QQuickItem::geometryChanged(newGeometry, oldGeometry);
+    markDirty();
 }
 
 void QuickGLCItem::paint()
@@ -133,7 +146,7 @@ void QuickGLCItem::mousePressEvent(QMouseEvent *e)
             m_Viewport.setWinGLSize(width(), height(), false);
             m_MoverController.setActiveMover(GLC_MoverController::TrackBall, GLC_UserInput(e->pos().x(), e->pos().y()));
             m_Viewport.setWinGLSize(oldSize, false);
-            update();
+            updateGLC();
             break;
         case (Qt::LeftButton):
             select(e->pos().x(), e->pos().y());
@@ -142,7 +155,7 @@ void QuickGLCItem::mousePressEvent(QMouseEvent *e)
             m_Viewport.setWinGLSize(width(), height(), false);
             m_MoverController.setActiveMover(GLC_MoverController::Zoom, GLC_UserInput(e->pos().x(), e->pos().y()));
             m_Viewport.setWinGLSize(oldSize, false);
-            update();
+            updateGLC();
             break;
 
         default:
@@ -159,7 +172,7 @@ void QuickGLCItem::mouseMoveEvent(QMouseEvent  *e)
         m_Viewport.setWinGLSize(width(), height(), false);
         m_MoverController.move(GLC_UserInput(e->pos().x(), e->pos().y()));
         m_Viewport.setWinGLSize(oldSize, false);
-        update();
+        updateGLC();
     }
 }
 
@@ -170,7 +183,7 @@ void QuickGLCItem::mouseReleaseEvent(QMouseEvent *e)
     if (m_MoverController.hasActiveMover())
     {
         m_MoverController.setNoMover();
-        update();
+        updateGLC();
     }
 }
 void QuickGLCItem::keyPressEvent(QKeyEvent *e) // switch between camera
@@ -214,14 +227,14 @@ void QuickGLCItem::keyPressEvent(QKeyEvent *e) // switch between camera
      default:
         return;
     }
-    update();
+    updateGLC();
 
 }
 
 void QuickGLCItem::wheelEvent(QWheelEvent *event)
 {
     m_delta = m_Viewport.cameraHandle()->distEyeTarget() - (event->delta() / 4);
-    update();
+    updateGLC();
 }
 
 void QuickGLCItem::initGl()
@@ -257,11 +270,15 @@ QSGNode * QuickGLCItem::updatePaintNode(QSGNode * oldNode, UpdatePaintNodeData *
     }
 
     m_rendertarget->setSize(this->boundingRect().size().toSize());
-    paint();
+    if(m_dirty){
+        paint();
+        node->setTexture(this->m_rendertarget);
+        node->setRect(boundingRect());
+        node->markDirty(QSGNode::DirtyMatrix );
+        m_dirty = false;
 
-    node->setTexture(this->m_rendertarget);
-    node->setRect(boundingRect());
-    node->markDirty(QSGNode::DirtyMatrix);
+    }
+
     return node;
 
 }
@@ -408,5 +425,5 @@ void QuickGLCItem::select(qreal x, qreal y)
 {
     m_IsinSelectionMode= true;
     m_CurrentPos.setVect(x, y);
-    update();
+    updateGLC();
 }
