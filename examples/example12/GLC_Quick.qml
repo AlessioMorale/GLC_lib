@@ -12,14 +12,15 @@ Rectangle{
         x:20
         y:20
         color:"yellow"
+        id: rect2
+        antialiasing: true
         GLCView{
-            x:0
-            y:0
-            width:parent.width
-            height:parent.height
-            id : view1
+            anchors.left: rect2.left
+            anchors.top: view1.top
+            anchors.margins: 10
+            width: rect2.width - 20
+            height: rect2.height - 20
             world: worldVariant2
         }
-
     }
 }

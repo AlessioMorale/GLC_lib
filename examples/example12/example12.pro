@@ -36,7 +36,7 @@ HEADERS += \
     qmlrendertarget.h
 
 OTHER_FILES += \
-    GLC_Declarative.qml
+    GLC_Quick.qml
 
 include(../../install.pri)
 

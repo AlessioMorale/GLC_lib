@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     view.rootContext()->setContextProperty("worldVariant2", variantWorld2);
 
     view.setResizeMode(QQuickView::SizeRootObjectToView);
-    view.setSource(QUrl("qrc:/GLC_Declarative.qml"));
+    view.setSource(QUrl("qrc:/GLC_Quick.qml"));
 
     view.show();
 

@@ -41,7 +41,7 @@ QuickGLCItem::QuickGLCItem(QQuickItem *pParent)
     GLC_State::setPixelCullingUsage(true);
     GLC_State::setSpacePartionningUsage(true);
     m_Viewport.setMinimumPixelCullingSize(6);
-
+    m_Viewport.setBackgroundColor(Qt::transparent);
     m_Light.setTwoSided(true);
     m_Light.setPosition(10.0, -10.0, 10.0);
 
@@ -248,7 +248,6 @@ void QuickGLCItem::initGl()
 
 QSGNode * QuickGLCItem::updatePaintNode(QSGNode * oldNode, UpdatePaintNodeData *)
 {
-    qDebug()<< "QuickGLCItem::updatePaintNode(" << boundingRect() <<") size (" << this->width() << "," << this->height() << ")";
     if (width() <= 0 || height() <= 0) {
         delete oldNode;
         return NULL;
@@ -276,11 +275,8 @@ QSGNode * QuickGLCItem::updatePaintNode(QSGNode * oldNode, UpdatePaintNodeData *
         node->setRect(boundingRect());
         node->markDirty(QSGNode::DirtyMatrix );
         m_dirty = false;
-
     }
-
     return node;
-
 }
 
 void QuickGLCItem::render()
@@ -376,7 +372,6 @@ void QuickGLCItem::renderWorld()
         m_World.render(0, glc::TransparentRenderFlag);
 
         m_World.render(1, glc::ShadingFlag);
-
         m_MoverController.drawActiveMoverRep();
     }
     catch (GLC_Exception &e)
