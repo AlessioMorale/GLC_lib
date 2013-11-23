@@ -4,7 +4,6 @@
 QMLRenderTarget::QMLRenderTarget(int width, int height)
 {
     QOpenGLFramebufferObjectFormat fmt;
-    fmt.setMipmap(true);
     fmt.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
     fbo = new QOpenGLFramebufferObject(width, height, fmt);
 }
@@ -18,7 +17,6 @@ QMLRenderTarget::~QMLRenderTarget()
 void QMLRenderTarget::setSize(int width, int height){
     if(!fbo || fbo->size().width() != width || fbo->size().height()!=height){
         QOpenGLFramebufferObjectFormat fmt;
-        fmt.setMipmap(true);
         fmt.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
         if(fbo){
             delete fbo;
